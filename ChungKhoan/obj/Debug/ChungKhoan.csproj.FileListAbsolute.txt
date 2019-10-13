@@ -1,0 +1,9 @@
+c:\users\huynh\onedrive\documents\visual studio 2013\Projects\ChungKhoan\ChungKhoan\bin\Debug\ChungKhoan.exe.config
+c:\users\huynh\onedrive\documents\visual studio 2013\Projects\ChungKhoan\ChungKhoan\bin\Debug\ChungKhoan.exe
+c:\users\huynh\onedrive\documents\visual studio 2013\Projects\ChungKhoan\ChungKhoan\bin\Debug\ChungKhoan.pdb
+c:\users\huynh\onedrive\documents\visual studio 2013\Projects\ChungKhoan\ChungKhoan\obj\Debug\ChungKhoan.csprojResolveAssemblyReference.cache
+c:\users\huynh\onedrive\documents\visual studio 2013\Projects\ChungKhoan\ChungKhoan\obj\Debug\ChungKhoan.Form1.resources
+c:\users\huynh\onedrive\documents\visual studio 2013\Projects\ChungKhoan\ChungKhoan\obj\Debug\ChungKhoan.Properties.Resources.resources
+c:\users\huynh\onedrive\documents\visual studio 2013\Projects\ChungKhoan\ChungKhoan\obj\Debug\ChungKhoan.csproj.GenerateResource.Cache
+c:\users\huynh\onedrive\documents\visual studio 2013\Projects\ChungKhoan\ChungKhoan\obj\Debug\ChungKhoan.exe
+c:\users\huynh\onedrive\documents\visual studio 2013\Projects\ChungKhoan\ChungKhoan\obj\Debug\ChungKhoan.pdb
