@@ -19,9 +19,10 @@ namespace ChungKhoan
         {
             InitializeComponent();
             labelMinSub.Text = "0";
-            
+
+            radioButtonTang.Checked = true;
             addListView();
-            listView1.Show();
+            maHoaItems();
         }
         public void addListView()
         {
@@ -34,28 +35,59 @@ namespace ChungKhoan
 
             SqlParameter param;
             param = cmd.Parameters.Add("@minsup", SqlDbType.Float);
-            param.Value = 0;
+            param.Value = Int32.Parse(labelMinSub.Text);
             param = cmd.Parameters.Add("@isinc", SqlDbType.Int);
-            param.Value = 0;
+            param.Value = getValueRadioButton();
 
 
             int i = 0;
             SqlDataReader rdr = cmd.ExecuteReader();
-            ArrayList myList = new ArrayList(); 
-            while(rdr.Read()){
+            string[] date;
+            ArrayList mylist = new ArrayList();
+            string temp;
 
-                listView1.Columns.Add(rdr.GetName(i));
-                
+            for (int j = 0; j < rdr.FieldCount; j++)
+            {
+                temp = rdr.GetName(j).ToString();
+                listView1.Columns.Add(temp);
+                mylist.Add(temp);
+            }
+
+            while (rdr.Read())
+            {
+                date = rdr["NGAY"].ToString().Split(' ');
+                listView1.Items.Add(date[0]);
+                foreach (string str in mylist)
+                {
+                    if (!str.Equals("NGAY"))
+                        listView1.Items[i].SubItems.Add(rdr[str].ToString());
+                }
                 i++;
-                
             }
             conn.Close();
         }
 
         public int getValueRadioButton()
         {
-           
-            return 0;
+            if (radioButtonTang.Checked == true)
+            {
+                return 1;
+            }
+            else return 0;
+
+        }
+        public void maHoaItems()
+        {
+            listView2.Columns.Add("Mã Item");
+            listView2.Columns.Add("Mã Cổ Phiếu");
+
+            for (int i = 0; i < listView1.Columns.Count; i++)
+            {
+                listView2.Items.Add((i).ToString());
+                listView2.Items[i].SubItems.Add(listView1.Columns[i].Text);
+            }
+            if (listView2.Items.Count != 0)
+            listView2.Items.Remove(listView2.Items[0]);
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -76,6 +108,25 @@ namespace ChungKhoan
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            listView1.Clear();
+            listView2.Clear();
+            addListView();
+            maHoaItems();
+
+
+
+            if (listView1.Items.Count == 0)
+                MessageBox.Show("Không có tập D nào thỏa minSub!");
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Form2 frm2 = new Form2();
+            frm2.ShowDialog();
         }
     }
 }
