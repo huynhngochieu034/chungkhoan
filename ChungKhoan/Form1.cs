@@ -1,4 +1,4 @@
-﻿using ChungKhoan.model;
+﻿
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -125,7 +125,7 @@ namespace ChungKhoan
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Form2 frm2 = new Form2();
+            Form2 frm2 = new Form2(listView1, listView2);
             frm2.ShowDialog();
         }
     }
