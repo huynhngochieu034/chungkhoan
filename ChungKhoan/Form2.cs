@@ -16,6 +16,7 @@ namespace ChungKhoan
         private ListView listViewD;
         private ListView listViewDetail;
         private List<int> list = new List<int>();
+        private int k = 1;
 
         public Form2(ListView listViewD, ListView listViewDetail)
         {
@@ -23,13 +24,13 @@ namespace ChungKhoan
             this.listViewD = listViewD;
             this.listViewDetail = listViewDetail;
             tapF1();
-            ungVien();
+            ungVien1();
             button1.Enabled = false;
         }
 
         public void tapF1()
         {
-            listView1.Columns.Add("SO CP");
+            listView1.Columns.Add("NGAY");
             listView1.Columns.Add("UNG VIEN");
 
             StringBuilder strBuild = new StringBuilder();
@@ -43,7 +44,9 @@ namespace ChungKhoan
                     if (listViewD.Items[i].SubItems[j].Text == "1")
                     {
                         list.Add(j);
+                        strBuild.Append("{");
                         strBuild.Append(j.ToString());
+                        strBuild.Append("}");
                         strBuild.Append(",");
                     }
                 }
@@ -53,9 +56,7 @@ namespace ChungKhoan
             }
         }
 
-
-
-        public void ungVien()
+        public void ungVien1()
         {
             listView2.Columns.Add("UNG VIEN");
             listView2.Columns.Add("SUPPORT");
@@ -80,8 +81,44 @@ namespace ChungKhoan
             }
         }
 
-      
+        private List<string> TimTapC(List<string> list, int k)
+        {
 
+            List<string> listTemp = new List<string>();
+            if (k == 1)
+            {
+                for (int i = 0; i < list.Count; i++)
+                {
+                    for (int j = i + 1; j < list.Count; j++)
+                    {
+                        listTemp.Add(list[i] + " " + list[j]);
+                    }
+                }
+            }
+            else
+            {
+
+                for (int i = 0; i < list.Count; i++)
+                {
+                    for (int j = i + 1; j < list.Count; j++)
+                    {   
+
+                        if (list[i].Remove(list[i].Length - 1).Trim().CompareTo(list[j].Remove(list[i].Length - 1).Trim()) == 0)
+                        {
+                            string kq = list[i].Remove(list[i].Length - 1).Trim()
+                                + " " + list[i].Remove(0, list[i].Length - 1).Trim()
+                                + " " + list[j].Remove(0, list[j].Length - 1).Trim();
+                            listTemp.Add(kq);
+                        }
+                    }
+                }
+
+            }
+
+            return listTemp;
+        }
+
+    
         private void Form2_Load(object sender, EventArgs e)
         {
            
@@ -98,45 +135,70 @@ namespace ChungKhoan
 
         }
 
+     
+
         private void button2_Click(object sender, EventArgs e)
         {
             List<int> distinct = list.Distinct().ToList();
             List<string> listGen = new List<string>();
             distinct.Sort();
-            PrioriGen PrioriGen = new PrioriGen(2, distinct.Count);
-            PrioriGen.generate();
-            // in kết quả
-            foreach (string result in PrioriGen.ResultList) 
-            {
-                listGen.Add(result);
-            }
-
-            listGen.RemoveAt(0);
-            listGen.RemoveAt(listGen.Count - 1);
-
-            StringBuilder sp = new StringBuilder();
-            foreach (string result in listGen)
-            {
-                sp.Append(result);
-                
-            }
-            listView1.Items.Add(sp.ToString());
-            //List<string> listtemp = new List<string>();
-            //foreach (string result in listGen)
-            //{
-            //    listtemp.AddRange(result.Select(c => c.ToString()));
-                
-                
-            //}
-            //foreach (string result in listtemp)
-            //{
-            //    listView1.Items.Add(result);
-
-            //}
             
+            //List<string> listTemp = TimTapC(listGen, 4);
+            //foreach (string i in listTemp)
+            //{
+            //    Console.WriteLine(i);
+            //}
 
+            string clean;
+            List<string> listClean = new List<string>();
+            List<string> result = new List<string>();
+            List<string> resultLast = new List<string>();
+            StringBuilder strBuild = new StringBuilder();
+            
+          
+            foreach (ListViewItem item in listView1.Items)
+            {
+               
+                clean = item.SubItems[1].Text.Replace("{","").Replace("}","").Replace(",","");
+                Console.WriteLine(clean);
+                foreach (char ch in clean)
+                {
+                    listClean.Add(ch.ToString());
+                }
+               
+                result = TimTapC(listClean, k);
+                listClean.Clear();
+                for (int i = 0; i < result.Count; i++)
+                {
+                    strBuild.Append("{");
+                    strBuild.Append(result[i].ToString());
+                    strBuild.Append("}");
+                    strBuild.Append(",");
+                }
+               
+                strBuild.Length--;
+                Console.WriteLine("Chuoi item: " + strBuild.ToString());
+                resultLast.Add(strBuild.ToString());
+                //listView1.Items[index].SubItems.Add(strBuild.ToString());
+                strBuild.Clear();
+                
+            }
+            showListView1(resultLast);
+            List<string> abc = resultLast.Distinct().ToList();
+           
+            foreach(string aa in abc){
+                Console.WriteLine(aa);
+            }
+        }
 
-
+        private void showListView1(List<string> listShow)
+        {
+            listView1.Items.Clear();
+            for (int i = 0; i < listShow.Count; i++)
+            {
+                listView1.Items.Add((i + 1).ToString());
+                listView1.Items[i].SubItems.Add(listShow[i]);
+            }
         }
     }
 }

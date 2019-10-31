@@ -29,7 +29,7 @@ namespace ChungKhoan
             // chèn một cấu hình vào danh sách kết quả
             string temp = "";
             for (int i = 1; i <= k; i++)
-                temp += result[i] + " ";
+                temp += result[i];
 
             ResultList.Add(temp);
         }
