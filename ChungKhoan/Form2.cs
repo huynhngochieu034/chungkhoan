@@ -23,52 +23,104 @@ namespace ChungKhoan
             InitializeComponent();
             this.listViewD = listViewD;
             this.listViewDetail = listViewDetail;
-            tapF1();
-            ungVien1();
-            button1.Enabled = false;
-        }
 
-        public void tapF1()
-        {
             listView1.Columns.Add("NGAY");
             listView1.Columns.Add("UNG VIEN");
 
+            listView2.Columns.Add("UNG VIEN");
+            listView2.Columns.Add("SUPPORT");
+
+            KhoiTaoTapF1();
+            KhoiTaoTapL1();
+
+            button1.Enabled = false;
+
+        }
+
+        private void TapFToListView(model.TapF tapf)
+        {
+            
+            int i = 0;
             StringBuilder strBuild = new StringBuilder();
+            label2.Text = tapf.Lable;
+            foreach (var t in tapf)
+            {
+                listView1.Items.Add(t.Key);
+               
+                foreach(string str in t.Value){
+                    strBuild.Append(str);
+                    strBuild.Append(", ");
+                }
+                if(strBuild.Length > 0)
+                strBuild.Length--;
+                strBuild.Length--;
+                listView1.Items[i++].SubItems.Add(strBuild.ToString());
+                strBuild.Clear();
+            }
+
+            listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+            listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+
+        }
+
+        private void TapLToListView(model.TapL tapl)
+        {
+            label3.Text = tapl.Lable;
+            int i = 0;
+            foreach (var t in tapl)
+            {
+                foreach(string k in t.Key){
+                    listView2.Items.Add(k);
+                }
+                listView2.Items[i++].SubItems.Add(t.Value.ToString());
+
+            }
+            listView2.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+            listView2.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+        }
+
+        private void KhoiTaoTapF1()
+        {
+            model.TapF tapf = new model.TapF();
+            tapf.Lable = "Tập F1";
+
+            List<string> listTemp = new List<string>();
+            string[] temp;
             int n = listViewD.Items.Count;
             for (int i = 0; i < n; i++)
             {
-
-                listView1.Items.Add((i + 1).ToString());
+                temp = listViewD.Items[i].SubItems[0].Text.ToString().Split('/');
+                
                 for (int j = 1; j <= listViewDetail.Items.Count; j++)
                 {
                     if (listViewD.Items[i].SubItems[j].Text == "1")
                     {
                         list.Add(j);
-                        strBuild.Append("{");
-                        strBuild.Append(j.ToString());
-                        strBuild.Append("}");
-                        strBuild.Append(",");
+                        listTemp.Add(j.ToString());
                     }
                 }
-                strBuild.Length--;
-                listView1.Items[i].SubItems.Add(strBuild.ToString());
-                strBuild.Clear();
+                tapf.Add(temp[0], new List<string>(listTemp));
+                listTemp.Clear();
             }
+            Program.listTapF.Add(tapf);
+            TapFToListView(tapf);
         }
 
-        public void ungVien1()
+        private void KhoiTaoTapL1()
         {
-            listView2.Columns.Add("UNG VIEN");
-            listView2.Columns.Add("SUPPORT");
-
+            
             List<int> distinct = list.Distinct().ToList();
             distinct.Sort();
 
+            model.TapL tapl = new model.TapL();
+            tapl.Lable = "Tập L1";
+
+            List<string> tempList = new List<string>();
             int i = 0;
             int dem = 0;
             foreach (int number in distinct)
             {
-                listView2.Items.Add(number.ToString());
+                tempList.Add(number.ToString());
                 for (int j = 0; j < list.Count; j++)
                 {
                     if (list[j] == number)
@@ -76,9 +128,17 @@ namespace ChungKhoan
                         dem++;
                     }
                 }
-                listView2.Items[i++].SubItems.Add(dem.ToString());
+                tapl.Add(new List<string>(tempList), dem);
+                tempList.Clear();
                 dem = 0;
             }
+            Program.listTapL.Add(tapl);
+            TapLToListView(tapl);
+        }
+
+        private void TapF_To_TapL(model.TapF tapf, model.TapL tapl)
+        {
+
         }
 
         private List<string> TimTapC(List<string> list, int k)
@@ -142,12 +202,6 @@ namespace ChungKhoan
             List<int> distinct = list.Distinct().ToList();
             List<string> listGen = new List<string>();
             distinct.Sort();
-            
-            //List<string> listTemp = TimTapC(listGen, 4);
-            //foreach (string i in listTemp)
-            //{
-            //    Console.WriteLine(i);
-            //}
 
             string clean;
             List<string> listClean = new List<string>();

@@ -43,6 +43,7 @@ namespace ChungKhoan
             int i = 0;
             SqlDataReader rdr = cmd.ExecuteReader();
             string[] date;
+            DateTime dt;
             ArrayList mylist = new ArrayList();
             string temp;
 
@@ -56,7 +57,8 @@ namespace ChungKhoan
             while (rdr.Read())
             {
                 date = rdr["NGAY"].ToString().Split(' ');
-                listView1.Items.Add(date[0]);
+                dt = Convert.ToDateTime(date[0]);
+                listView1.Items.Add(dt.Day +"/"+dt.Month+"/"+dt.Year);
                 foreach (string str in mylist)
                 {
                     if (!str.Equals("NGAY"))
@@ -64,6 +66,8 @@ namespace ChungKhoan
                 }
                 i++;
             }
+            listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+            listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
             conn.Close();
         }
 
@@ -85,6 +89,8 @@ namespace ChungKhoan
             {
                 listView2.Items.Add((i).ToString());
                 listView2.Items[i].SubItems.Add(listView1.Columns[i].Text);
+                //add to list MaHoa
+                Program.listMahoa.Add(new model.MaHoa(listView1.Columns[i].Text, i));
             }
             if (listView2.Items.Count != 0)
             listView2.Items.Remove(listView2.Items[0]);
@@ -117,10 +123,15 @@ namespace ChungKhoan
             addListView();
             maHoaItems();
 
-
-
             if (listView1.Items.Count == 0)
+            {
                 MessageBox.Show("Không có tập D nào thỏa minSub!");
+                button2.Enabled = false;
+            }
+            else
+            {
+                button2.Enabled = true;
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
