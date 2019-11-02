@@ -17,6 +17,7 @@ namespace ChungKhoan
         private ListView listViewDetail;
         private List<int> list = new List<int>();
         private int k = 1;
+        private string tempChar = "";
 
         public Form2(ListView listViewD, ListView listViewDetail)
         {
@@ -108,17 +109,19 @@ namespace ChungKhoan
 
         private void KhoiTaoTapL1()
         {
-            
-            List<int> distinct = list.Distinct().ToList();
-            distinct.Sort();
+            List<int> listMaHoa = new List<int>();
+            foreach (var mh in Program.listMahoa)
+            {
+                listMaHoa.Add(mh.maHoa);
+                Console.WriteLine("So ma hoa: "+mh.maHoa);
+            }
 
             model.TapL tapl = new model.TapL();
             tapl.Lable = "Tập L1";
 
             List<string> tempList = new List<string>();
-            int i = 0;
             int dem = 0;
-            foreach (int number in distinct)
+            foreach (int number in listMaHoa)
             {
                 tempList.Add(number.ToString());
                 for (int j = 0; j < list.Count; j++)
@@ -136,12 +139,21 @@ namespace ChungKhoan
             TapLToListView(tapl);
         }
 
-        private void TapF_To_TapL(model.TapF tapf, model.TapL tapl)
-        {
+        //private void TapF_To_TapL(model.TapF tapf, model.TapL tapl)
+        //{
+        //    List<string> listStr = new List<string>();
+        //    foreach(var t in tapf){
+        //        listStr = TimTapC(t.Value, 1);
+        //        foreach (string str in listStr)
+        //        {
+        //            Console.WriteLine("Gia tri: " + str);
+        //        }
+        //    }
+            
 
-        }
+        //}
 
-        private List<string> TimTapC(List<string> list, int k)
+        private List<string> Tim_TapC_Tu_TapL(List<string> list, int k)
         {
 
             List<string> listTemp = new List<string>();
@@ -178,6 +190,46 @@ namespace ChungKhoan
             return listTemp;
         }
 
+        private void kiem_Tra_TapC_Voi_TapF(List<string> tapC, model.TapF tapf)
+        {
+
+        }
+
+        private string xoaPhanTuCuoi(string str)
+        {
+            string a="";
+            
+            for (int i = str.Length-1; i >= 0; i--)
+            {
+                 tempChar += str[i];
+                if(str[i]==' '){
+                    a = str.Remove(i);
+                    break;
+                }
+            }
+            return a;
+        }
+
+        private string xoaPhanTuKeCuoi(string str)
+        {
+            string a = "";
+            int dem = 0;
+            for (int i = str.Length - 1; i >= 0; i--)
+            {
+                if (str[i] == ' ')
+                {
+                    dem++;
+                    if (dem == 2)
+                    {
+                        a = str.Remove(i+1);
+                        break;
+                    }
+                    
+                }
+            }
+            return a + tempChar.Trim();
+        }
+
     
         private void Form2_Load(object sender, EventArgs e)
         {
@@ -199,60 +251,75 @@ namespace ChungKhoan
 
         private void button2_Click(object sender, EventArgs e)
         {
-            List<int> distinct = list.Distinct().ToList();
-            List<string> listGen = new List<string>();
-            distinct.Sort();
-
-            string clean;
-            List<string> listClean = new List<string>();
-            List<string> result = new List<string>();
-            List<string> resultLast = new List<string>();
-            StringBuilder strBuild = new StringBuilder();
             
-          
-            foreach (ListViewItem item in listView1.Items)
+            List<string> listStr = new List<string>();
+            List<string> listResult = new List<string>();
+            //model.TapF tapf = Program.listTapF[0];
+            foreach (var t in Program.listTapL[0])
             {
-               
-                clean = item.SubItems[1].Text.Replace("{","").Replace("}","").Replace(",","");
-                Console.WriteLine(clean);
-                foreach (char ch in clean)
+                foreach (string str in t.Key)
                 {
-                    listClean.Add(ch.ToString());
+                    listStr.Add(str);
                 }
-               
-                result = TimTapC(listClean, k);
-                listClean.Clear();
-                for (int i = 0; i < result.Count; i++)
-                {
-                    strBuild.Append("{");
-                    strBuild.Append(result[i].ToString());
-                    strBuild.Append("}");
-                    strBuild.Append(",");
-                }
-               
-                strBuild.Length--;
-                Console.WriteLine("Chuoi item: " + strBuild.ToString());
-                resultLast.Add(strBuild.ToString());
-                //listView1.Items[index].SubItems.Add(strBuild.ToString());
-                strBuild.Clear();
                 
             }
-            showListView1(resultLast);
-            List<string> abc = resultLast.Distinct().ToList();
-           
-            foreach(string aa in abc){
-                Console.WriteLine(aa);
-            }
-        }
 
-        private void showListView1(List<string> listShow)
-        {
-            listView1.Items.Clear();
-            for (int i = 0; i < listShow.Count; i++)
+            listResult = Tim_TapC_Tu_TapL(listStr, 1);
+            foreach (string str in listResult)
             {
-                listView1.Items.Add((i + 1).ToString());
-                listView1.Items[i].SubItems.Add(listShow[i]);
+                Console.WriteLine("Gia tri list string: " + str);
             }
+
+            //string s = "11 22";
+            //string[] check = s.Split(' ');
+
+            //if (check.Length >= 2)
+            //    Console.WriteLine(xoaPhanTuCuoi(s));
+            //if (check.Length >= 2)
+            //    Console.WriteLine(xoaPhanTuKeCuoi(s));
+            //tempChar = "";
+
+
+            string[] check;
+            string resultLast;
+            string resultNearLast;
+            List<string> listKeyL = new List<string>();
+            string temp="";
+            foreach (var t in Program.listTapF[0])
+            {
+                foreach (string str in listResult)
+                {
+                    check = str.Split(' ');
+                    if (check.Length >= 2)
+                    {
+                        resultLast = xoaPhanTuCuoi(str);
+                        resultNearLast = xoaPhanTuKeCuoi(str);
+                        tempChar = "";
+                        if(t.Value.Contains(resultLast)){
+
+                            if (t.Value.Contains(resultNearLast))
+                            {
+                                temp += resultLast;
+                                temp += " ";
+                                temp += resultNearLast;
+                                temp += ", ";
+                               
+                                
+                            }
+                        }
+                    }
+
+                }
+                listKeyL.Add(temp.Trim());
+                temp = "";
+            }
+            foreach(string str in listKeyL){
+                Console.WriteLine("L.KEY: "+str);
+            }
+
+
+            
+           
         }
     }
 }

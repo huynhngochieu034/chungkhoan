@@ -84,7 +84,7 @@ namespace ChungKhoan
         {
             listView2.Columns.Add("Mã Item");
             listView2.Columns.Add("Mã Cổ Phiếu");
-
+            Program.listMahoa.Clear();
             for (int i = 0; i < listView1.Columns.Count; i++)
             {
                 listView2.Items.Add((i).ToString());
@@ -94,6 +94,9 @@ namespace ChungKhoan
             }
             if (listView2.Items.Count != 0)
             listView2.Items.Remove(listView2.Items[0]);
+            Program.listMahoa.Remove(Program.listMahoa[0]);
+            listView2.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+            listView2.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
 
         private void label2_Click(object sender, EventArgs e)
