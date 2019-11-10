@@ -133,7 +133,7 @@ namespace ChungKhoan
             maHoaItems();
 
             Program.minSup = (trackBar1.Value);
-            Console.WriteLine("Gia tri Min Sub: "+Program.minSup);
+            //Console.WriteLine("Gia tri Min Sub: "+Program.minSup);
             if (listView1.Items.Count == 0)
             {
                 MessageBox.Show("Không có tập D nào thỏa minSub!");

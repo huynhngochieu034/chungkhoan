@@ -128,20 +128,28 @@ namespace ChungKhoan
                             if (strr.Equals(strRemoveLast))
                             {
 
-                                Console.WriteLine("str: " + strRemoveLast + "=>" + tempLastChar.Trim());
-                                Console.WriteLine("Sup: " + t.Value * 100 / t2.Value);
+                                //Console.WriteLine("str: " + strRemoveLast + "=>" + tempLastChar.Trim());
+                                //Console.WriteLine("Sup: " + t.Value * 100 / t2.Value);
                                 if (t.Value * 100 / t2.Value >= trackBar1.Value)
                                 {
 
                                     checktoListView = strRemoveLast.Split(' ');
                                     foreach (string s in checktoListView)
                                     {
-                                        //strBuilder.Append(getNameMaHoa(s));
+                                        
                                         strBuilder.Append(getNameCP(getNameMaHoa(s)));
-                                        strBuilder.Append(" ");
+                                        strBuilder.Append(", ");
                                     }
+
+                                    if (strBuilder.Length == 0)
+                                    {
+                                        strBuilder.Append(", ");
+                                    }
+                                    strBuilder.Length--;
+                                    strBuilder.Length--;
+
                                     strBuilder.Append(" => ");
-                                    //strBuilder.Append(getNameMaHoa(tempLastChar));
+                                   
                                     strBuilder.Append(getNameCP(getNameMaHoa(tempLastChar)));
                                     listView1.Items.Add(strBuilder.ToString());
 
@@ -152,8 +160,8 @@ namespace ChungKhoan
 
                             if (strr.Equals(strRemoveNearLast))
                             {
-                                Console.WriteLine("str: " + strRemoveNearLast + "=>" + tempString[1]);
-                                Console.WriteLine("Sup: " + t.Value * 100 / t2.Value);
+                                //Console.WriteLine("str: " + strRemoveNearLast + "=>" + tempString[1]);
+                               // Console.WriteLine("Sup: " + t.Value * 100 / t2.Value);
                                 if (t.Value * 100 / t2.Value >= trackBar1.Value)
                                 {
 
@@ -162,8 +170,14 @@ namespace ChungKhoan
                                     {
                                         //strBuilder.Append(getNameMaHoa(s));
                                         strBuilder.Append(getNameCP(getNameMaHoa(s)));
-                                        strBuilder.Append(" ");
+                                        strBuilder.Append(", ");
                                     }
+                                    if (strBuilder.Length == 0)
+                                    {
+                                        strBuilder.Append(", ");
+                                    }
+                                    strBuilder.Length--;
+                                    strBuilder.Length--;
                                     strBuilder.Append(" => ");
                                     //strBuilder.Append(getNameMaHoa(tempString[1]));
                                     strBuilder.Append(getNameCP(getNameMaHoa(tempString[1])));
@@ -173,8 +187,8 @@ namespace ChungKhoan
                             }
                             if (check.Length >= 3 && strr.Equals(cacKiTuCuoi))
                             {
-                                Console.WriteLine("str: " + cacKiTuCuoi + "=>" + kiTuDau);
-                                Console.WriteLine("Sup: " + t.Value * 100 / t2.Value);
+                                //Console.WriteLine("str: " + cacKiTuCuoi + "=>" + kiTuDau);
+                                //Console.WriteLine("Sup: " + t.Value * 100 / t2.Value);
                                 if (t.Value * 100 / t2.Value >= trackBar1.Value)
                                 {
 
@@ -184,8 +198,14 @@ namespace ChungKhoan
 
                                         //strBuilder.Append(getNameMaHoa(s));
                                         strBuilder.Append(getNameCP(getNameMaHoa(s)));
-                                        strBuilder.Append(" ");
+                                        strBuilder.Append(", ");
                                     }
+                                    if (strBuilder.Length == 0)
+                                    {
+                                        strBuilder.Append(", ");
+                                    }
+                                    strBuilder.Length--;
+                                    strBuilder.Length--;
                                     strBuilder.Append(" => ");
                                     //strBuilder.Append(getNameMaHoa(kiTuDau));
                                     strBuilder.Append(getNameCP(getNameMaHoa(kiTuDau)));
@@ -204,8 +224,8 @@ namespace ChungKhoan
                             {
                                 if (strr.Equals(tempLastChar.Trim()))
                                 {
-                                    Console.WriteLine("str: " + tempLastChar.Trim() + "=>" + strRemoveLast);
-                                    Console.WriteLine("Sup: " + t.Value * 100 / t2.Value);
+                                    //Console.WriteLine("str: " + tempLastChar.Trim() + "=>" + strRemoveLast);
+                                    //Console.WriteLine("Sup: " + t.Value * 100 / t2.Value);
                                     if (t.Value * 100 / t2.Value >= trackBar1.Value)
                                     {
 
@@ -218,8 +238,14 @@ namespace ChungKhoan
                                         {
                                             strBuilder.Append(getNameCP(getNameMaHoa(s)));
                                             //strBuilder.Append(getNameMaHoa(s));
-                                            strBuilder.Append(" ");
+                                            strBuilder.Append(", ");
                                         }
+                                        if (strBuilder.Length == 0)
+                                        {
+                                            strBuilder.Append(", ");
+                                        }
+                                        strBuilder.Length--;
+                                        strBuilder.Length--;
 
                                         listView1.Items.Add(strBuilder.ToString());
                                         strBuilder.Clear();
@@ -227,8 +253,8 @@ namespace ChungKhoan
                                 }
                                 if (strr.Equals(tempString[1]))
                                 {
-                                    Console.WriteLine("str: " + tempString[1] + "=>" + strRemoveNearLast);
-                                    Console.WriteLine("Sup: " + t.Value * 100 / t2.Value);
+                                   // Console.WriteLine("str: " + tempString[1] + "=>" + strRemoveNearLast);
+                                   // Console.WriteLine("Sup: " + t.Value * 100 / t2.Value);
                                     if (t.Value * 100 / t2.Value >= trackBar1.Value)
                                     {
 
@@ -240,17 +266,22 @@ namespace ChungKhoan
                                         {
                                             //strBuilder.Append(getNameMaHoa(s));
                                             strBuilder.Append(getNameCP(getNameMaHoa(s)));
-                                            strBuilder.Append(" ");
+                                            strBuilder.Append(", ");
                                         }
-
+                                        if (strBuilder.Length == 0)
+                                        {
+                                            strBuilder.Append(", ");
+                                        }
+                                        strBuilder.Length--;
+                                        strBuilder.Length--;
                                         listView1.Items.Add(strBuilder.ToString());
                                         strBuilder.Clear();
                                     }
                                 }
                                 if (strr.Equals(kiTuDau))
                                 {
-                                    Console.WriteLine("str: " + kiTuDau + "=>" + cacKiTuCuoi);
-                                    Console.WriteLine("Sup: " + t.Value * 100 / t2.Value);
+                                    //Console.WriteLine("str: " + kiTuDau + "=>" + cacKiTuCuoi);
+                                    //Console.WriteLine("Sup: " + t.Value * 100 / t2.Value);
                                     if (t.Value * 100 / t2.Value >= trackBar1.Value)
                                     {
 
@@ -262,9 +293,14 @@ namespace ChungKhoan
                                         {
                                             //strBuilder.Append(getNameMaHoa(s));
                                             strBuilder.Append(getNameCP(getNameMaHoa(s)));
-                                            strBuilder.Append(" ");
+                                            strBuilder.Append(", ");
                                         }
-
+                                        if (strBuilder.Length == 0)
+                                        {
+                                            strBuilder.Append(", ");
+                                        }
+                                        strBuilder.Length--;
+                                        strBuilder.Length--;
                                         listView1.Items.Add(strBuilder.ToString());
                                         strBuilder.Clear();
                                     }

@@ -125,7 +125,7 @@ namespace ChungKhoan
             foreach (var mh in Program.listMahoa)
             {
                 listMaHoa.Add(mh.maHoa);
-                Console.WriteLine("So ma hoa: "+mh.maHoa);
+                //Console.WriteLine("So ma hoa: "+mh.maHoa);
             }
 
             model.TapL tapl = new model.TapL();
@@ -269,9 +269,9 @@ namespace ChungKhoan
             }
 
             listResult = Tim_TapC_Tu_TapL(listStr, k+1);
-            foreach(string str in listResult){
-                Console.WriteLine("Tap C: "+ str);
-            }
+            //foreach(string str in listResult){
+            //    Console.WriteLine("Tap C: "+ str);
+            //}
 
             if (listResult.Count == 0)
             {
@@ -292,7 +292,7 @@ namespace ChungKhoan
                     {
                         resultLast = xoaPhanTuCuoi(str);
                         resultNearLast = xoaPhanTuKeCuoi(str);
-                        Console.WriteLine("Last: Near Last: "+resultLast+": "+resultNearLast);
+                        //Console.WriteLine("Last: Near Last: "+resultLast+": "+resultNearLast);
                         
                         tempChar = "";
                         if (t.Value.Contains(resultLast))
@@ -307,10 +307,7 @@ namespace ChungKhoan
 
                 }
 
-                //foreach (string str in listTemp)
-                //{
-                //    listToTapL.Add(str);
-                //}
+              
                 tapf.Add(t.Key, new List<string>(listTemp));
                 listTemp.Clear();
                
@@ -334,7 +331,7 @@ namespace ChungKhoan
                     count = listSTR.Where(temp => temp.Equals(findValue))
                         .Select(temp => temp)
                         .Count();
-                    Console.WriteLine("Find Value: "+findValue+" : "+count);
+                    //Console.WriteLine("Find Value: "+findValue+" : "+count);
                     if ((count * 100) / SoUngVien >= Program.minSup)
                     {
                         tempList.Add(findValue);
