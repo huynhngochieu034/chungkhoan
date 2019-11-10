@@ -17,3 +17,4 @@ C:\Users\huynh\OneDrive\Desktop\chungkhoan\ChungKhoan\obj\Debug\ChungKhoan.Form1
 C:\Users\huynh\OneDrive\Desktop\chungkhoan\ChungKhoan\obj\Debug\ChungKhoan.Form2.resources
 C:\Users\huynh\OneDrive\Desktop\chungkhoan\ChungKhoan\obj\Debug\ChungKhoan.Properties.Resources.resources
 C:\Users\huynh\OneDrive\Desktop\chungkhoan\ChungKhoan\obj\Debug\ChungKhoan.csproj.GenerateResource.Cache
+C:\Users\huynh\OneDrive\Desktop\chungkhoan\ChungKhoan\obj\Debug\ChungKhoan.Form3.resources

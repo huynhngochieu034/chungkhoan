@@ -239,20 +239,16 @@ namespace ChungKhoan
             TapFToListView(Program.listTapF[k]);
             TapLToListView(Program.listTapL[k]);
 
-            if (k==0)
+            if (k == 0)
             {
-                
-                this.button1.Enabled = true;
+                button1.Enabled = false;
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             TapC_To_TapF();
-
-           
-            this.button1.Enabled = false;
-
+            button1.Enabled = true;
             k++;
         }
         private void TapC_To_TapF()
@@ -276,6 +272,13 @@ namespace ChungKhoan
             foreach(string str in listResult){
                 Console.WriteLine("Tap C: "+ str);
             }
+
+            if (listResult.Count == 0)
+            {
+                MessageBox.Show("Thuật toán kết thúc!");
+                Form3 frm = new Form3(k);
+                frm.ShowDialog();
+            }
            
             model.TapF tapf = new model.TapF();
             tapf.Lable = "Tập F"+((k+2).ToString());
@@ -297,16 +300,17 @@ namespace ChungKhoan
                             if (t.Value.Contains(resultNearLast))
                             {
                                 listTemp.Add(str);
+                                listToTapL.Add(str);
                             }
                         }
                     }
 
                 }
 
-                foreach (string str in listTemp)
-                {
-                    listToTapL.Add(str);
-                }
+                //foreach (string str in listTemp)
+                //{
+                //    listToTapL.Add(str);
+                //}
                 tapf.Add(t.Key, new List<string>(listTemp));
                 listTemp.Clear();
                

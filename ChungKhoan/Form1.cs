@@ -15,6 +15,7 @@ namespace ChungKhoan
 {
     public partial class Form1 : Form
     {
+        public static int checkTangGiam;
         public Form1()
         {
             InitializeComponent();
@@ -38,7 +39,7 @@ namespace ChungKhoan
             param.Value = Int32.Parse(labelMinSub.Text);
             param = cmd.Parameters.Add("@isinc", SqlDbType.Int);
             param.Value = getValueRadioButton();
-
+            checkTangGiam = getValueRadioButton();
 
             int i = 0;
             SqlDataReader rdr = cmd.ExecuteReader();
@@ -92,8 +93,13 @@ namespace ChungKhoan
                 //add to list MaHoa
                 Program.listMahoa.Add(new model.MaHoa(listView1.Columns[i].Text, i));
             }
+
             if (listView2.Items.Count != 0)
             listView2.Items.Remove(listView2.Items[0]);
+
+            if (Program.listMahoa.Count > 0)
+                Program.listMahoa.Remove(Program.listMahoa[0]);
+
             Program.listMahoa.Remove(Program.listMahoa[0]);
             listView2.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
             listView2.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
