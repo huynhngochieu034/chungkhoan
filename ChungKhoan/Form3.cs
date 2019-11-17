@@ -50,7 +50,7 @@ namespace ChungKhoan
                     break;
                 }
             }
-            return a;
+            return a.Trim();
         }
 
  

@@ -42,11 +42,11 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Location = new System.Drawing.Point(362, 22);
+            this.label1.Location = new System.Drawing.Point(284, 19);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(221, 22);
+            this.label1.Size = new System.Drawing.Size(373, 22);
             this.label1.TabIndex = 0;
-            this.label1.Text = "ĐỀ TÀI 2: APRIORI-TID";
+            this.label1.Text = "ĐỀ TÀI 2: CHỨNG KHOÁN APRIORI-TID";
             // 
             // listView1
             // 

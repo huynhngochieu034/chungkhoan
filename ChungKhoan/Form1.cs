@@ -100,7 +100,7 @@ namespace ChungKhoan
             if (Program.listMahoa.Count > 0)
                 Program.listMahoa.Remove(Program.listMahoa[0]);
 
-            Program.listMahoa.Remove(Program.listMahoa[0]);
+            
             listView2.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
             listView2.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }

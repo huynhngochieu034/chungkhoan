@@ -13,19 +13,20 @@ namespace ChungKhoan
     public partial class Form2 : Form
     {
 
-        private ListView listViewD;
-        private ListView listViewDetail;
+        private ListView listViewTapD;
+        private ListView listViewMaHoa;
         private List<int> list = new List<int>();
         private int k = 0;
         private string tempChar = "";
         private List<string> listToTapL = new List<string>();
         private int SoUngVien;
+        private int countPre = 0;
 
         public Form2(ListView listViewD, ListView listViewDetail)
         {
             InitializeComponent();
-            this.listViewD = listViewD;
-            this.listViewDetail = listViewDetail;
+            this.listViewTapD = listViewD;
+            this.listViewMaHoa = listViewDetail;
 
            
             SoUngVien = Program.listMahoa.Count;
@@ -99,14 +100,14 @@ namespace ChungKhoan
 
             List<string> listTemp = new List<string>();
             string temp;
-            int n = listViewD.Items.Count;
+            int n = listViewTapD.Items.Count;
             for (int i = 0; i < n; i++)
             {
-                temp = listViewD.Items[i].SubItems[0].Text;
-                
-                for (int j = 1; j <= listViewDetail.Items.Count; j++)
+                temp = listViewTapD.Items[i].SubItems[0].Text;
+
+                for (int j = 1; j <= listViewMaHoa.Items.Count; j++)
                 {
-                    if (listViewD.Items[i].SubItems[j].Text == "1")
+                    if (listViewTapD.Items[i].SubItems[j].Text == "1")
                     {
                         list.Add(j);
                         listTemp.Add(j.ToString());
@@ -149,41 +150,62 @@ namespace ChungKhoan
             TapLToListView(tapl);
         }
 
-        private List<string> Tim_TapC_Tu_TapL(List<string> list, int k)
+        private List<string> Tim_TapC_Tu_TapL(List<string> listString, int k)
         {
 
-            List<string> listTemp = new List<string>();
+            List<string> arrTemp = new List<string>();
+            string result;
             if (k == 1)
             {
-                for (int i = 0; i < list.Count; i++)
+                for (int i = 0; i < listString.Count; i++)
                 {
-                    for (int j = i + 1; j < list.Count; j++)
+                    for (int j = i + 1; j < listString.Count; j++)
                     {
-                        listTemp.Add(list[i] + " " + list[j]);
+                        arrTemp.Add(listString[i] + " " + listString[j]);
                     }
                 }
             }
             else
             {
-
-                for (int i = 0; i < list.Count; i++)
+                for (int i = 0; i < listString.Count; i++)
                 {
-                    for (int j = i + 1; j < list.Count; j++)
-                    {   
+                    //Console.WriteLine("List: " + list[i]);
 
-                        if (list[i].Remove(list[i].Length - 1).Trim().CompareTo(list[j].Remove(list[i].Length - 1).Trim()) == 0)
+                    for (int j = i + 1; j < listString.Count; j++)
+                    {
+
+                        //Console.WriteLine(list[i].Remove(list[i].Length - demString(list[i])).Trim());
+                        //Console.WriteLine("compare");
+                        //Console.WriteLine(list[j].Remove(list[j].Length - demString(list[j])).Trim());
+
+                        if (listString[i].Remove(listString[i].Length - demString(listString[i])).Trim()
+                            .CompareTo(listString[j].Remove(listString[j].Length - demString(listString[j])).Trim()) == 0)
                         {
-                            string kq = list[i].Remove(list[i].Length - 1).Trim()
-                                + " " + list[i].Remove(0, list[i].Length - 1).Trim()
-                                + " " + list[j].Remove(0, list[j].Length - 1).Trim();
-                            listTemp.Add(kq);
+                            result = listString[i].Remove(listString[i].Length - demString(listString[i])).Trim()
+                                + " " + listString[i].Remove(0, listString[i].Length - demString(listString[i])).Trim()
+                                + " " + listString[j].Remove(0, listString[j].Length - demString(listString[j])).Trim();
+
+                            arrTemp.Add(result);
                         }
                     }
                 }
 
             }
+            return arrTemp;
+        }
 
-            return listTemp;
+        private int demString(string str)
+        {
+            int dem = 0;
+            for (int i = str.Length - 1; i >= 0; i--)
+            {
+                dem++;
+                if (str[i] == ' ')
+                {
+                    break;
+                }
+            }
+            return dem;
         }
 
         private string xoaPhanTuCuoi(string str)
@@ -198,7 +220,7 @@ namespace ChungKhoan
                     break;
                 }
             }
-            return a;
+            return a.Trim();
         }
 
         private string xoaPhanTuKeCuoi(string str)
@@ -235,6 +257,7 @@ namespace ChungKhoan
 
         private void button1_Click(object sender, EventArgs e)
         {
+            countPre++;
             k--;
             TapFToListView(Program.listTapF[k]);
             TapLToListView(Program.listTapL[k]);
@@ -245,11 +268,25 @@ namespace ChungKhoan
             }
         }
 
+
+
         private void button2_Click(object sender, EventArgs e)
         {
-            TapC_To_TapF();
-            button1.Enabled = true;
-            k++;
+            if (countPre > 0)
+            {
+                k++;
+                TapFToListView(Program.listTapF[k]);
+                TapLToListView(Program.listTapL[k]);
+
+                countPre--;
+            }
+            else
+            {
+                TapC_To_TapF();
+                button1.Enabled = true;
+                k++;
+            }
+
         }
         private void TapC_To_TapF()
         {
