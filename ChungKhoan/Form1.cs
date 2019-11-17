@@ -59,7 +59,7 @@ namespace ChungKhoan
             {
                 date = rdr["NGAY"].ToString().Split(' ');
                 dt = Convert.ToDateTime(date[0]);
-                listView1.Items.Add(dt.Day +"/"+dt.Month+"/"+dt.Year);
+                listView1.Items.Add(dt.Day + "/" + dt.Month + "/" + dt.Year);
                 foreach (string str in mylist)
                 {
                     if (!str.Equals("NGAY"))
@@ -95,7 +95,7 @@ namespace ChungKhoan
             }
 
             if (listView2.Items.Count != 0)
-            listView2.Items.Remove(listView2.Items[0]);
+                listView2.Items.Remove(listView2.Items[0]);
 
             if (Program.listMahoa.Count > 0)
                 Program.listMahoa.Remove(Program.listMahoa[0]);

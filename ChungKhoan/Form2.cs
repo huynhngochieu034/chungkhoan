@@ -28,9 +28,9 @@ namespace ChungKhoan
             this.listViewTapD = listViewD;
             this.listViewMaHoa = listViewDetail;
 
-           
+
             SoUngVien = Program.listMahoa.Count;
-            
+
             listView1.Columns.Add("NGAY");
             listView1.Columns.Add("UNG VIEN");
 
@@ -52,9 +52,10 @@ namespace ChungKhoan
             label2.Text = tapf.Lable;
             foreach (var t in tapf)
             {
-                listView1.Items.Add(t.Key);
-               
-                foreach(string str in t.Value){
+
+
+                foreach (string str in t.Value)
+                {
                     strBuild.Append(str);
                     strBuild.Append(", ");
                 }
@@ -62,12 +63,15 @@ namespace ChungKhoan
                 {
                     strBuild.Append(", ");
                 }
-                    strBuild.Length--;
-                    strBuild.Length--;
-                
-                
-                
-                listView1.Items[i++].SubItems.Add(strBuild.ToString());
+                strBuild.Length--;
+                strBuild.Length--;
+
+                if (t.Value.Count != 0)
+                {
+                    listView1.Items.Add(t.Key);
+                    listView1.Items[i++].SubItems.Add(strBuild.ToString());
+                }
+
                 strBuild.Clear();
             }
 
@@ -83,7 +87,8 @@ namespace ChungKhoan
             int i = 0;
             foreach (var t in tapl)
             {
-                foreach(string k in t.Key){
+                foreach (string k in t.Key)
+                {
                     listView2.Items.Add(k);
                 }
                 listView2.Items[i++].SubItems.Add(t.Value.ToString());
@@ -210,12 +215,13 @@ namespace ChungKhoan
 
         private string xoaPhanTuCuoi(string str)
         {
-            string a="";
-            
-            for (int i = str.Length-1; i >= 0; i--)
+            string a = "";
+
+            for (int i = str.Length - 1; i >= 0; i--)
             {
-                 tempChar += str[i];
-                if(str[i]==' '){
+                tempChar += str[i];
+                if (str[i] == ' ')
+                {
                     a = str.Remove(i);
                     break;
                 }
@@ -234,19 +240,19 @@ namespace ChungKhoan
                     dem++;
                     if (dem == 2)
                     {
-                        a = str.Remove(i+1);
+                        a = str.Remove(i + 1);
                         break;
                     }
-                    
+
                 }
             }
             return a + tempChar.Trim();
         }
 
-    
+
         private void Form2_Load(object sender, EventArgs e)
         {
-           
+
 
         }
 
@@ -305,7 +311,7 @@ namespace ChungKhoan
                 }
             }
 
-            listResult = Tim_TapC_Tu_TapL(listStr, k+1);
+            listResult = Tim_TapC_Tu_TapL(listStr, k + 1);
             //foreach(string str in listResult){
             //    Console.WriteLine("Tap C: "+ str);
             //}
@@ -316,9 +322,9 @@ namespace ChungKhoan
                 Form3 frm = new Form3(k);
                 frm.ShowDialog();
             }
-           
+
             model.TapF tapf = new model.TapF();
-            tapf.Lable = "Tập F"+((k+2).ToString());
+            tapf.Lable = "Tập F" + ((k + 2).ToString());
 
             foreach (var t in Program.listTapF[k])
             {
@@ -330,7 +336,7 @@ namespace ChungKhoan
                         resultLast = xoaPhanTuCuoi(str);
                         resultNearLast = xoaPhanTuKeCuoi(str);
                         //Console.WriteLine("Last: Near Last: "+resultLast+": "+resultNearLast);
-                        
+
                         tempChar = "";
                         if (t.Value.Contains(resultLast))
                         {
@@ -344,10 +350,10 @@ namespace ChungKhoan
 
                 }
 
-              
+
                 tapf.Add(t.Key, new List<string>(listTemp));
                 listTemp.Clear();
-               
+
             }
             Program.listTapF.Add(tapf);
             TapFToListView(tapf);
@@ -362,23 +368,23 @@ namespace ChungKhoan
 
             tempSTR.AddRange(listSTR.Distinct());
             int count = 0;
-           
-                foreach (string findValue in tempSTR)
+
+            foreach (string findValue in tempSTR)
+            {
+                count = listSTR.Where(temp => temp.Equals(findValue))
+                    .Select(temp => temp)
+                    .Count();
+                //Console.WriteLine("Find Value: "+findValue+" : "+count);
+                if ((count * 100) / SoUngVien >= Program.minSup)
                 {
-                    count = listSTR.Where(temp => temp.Equals(findValue))
-                        .Select(temp => temp)
-                        .Count();
-                    //Console.WriteLine("Find Value: "+findValue+" : "+count);
-                    if ((count * 100) / SoUngVien >= Program.minSup)
-                    {
-                        tempList.Add(findValue);
-                        tapl.Add(new List<string>(tempList), count);
-                        tempList.Clear();
-                    }   
+                    tempList.Add(findValue);
+                    tapl.Add(new List<string>(tempList), count);
+                    tempList.Clear();
                 }
-                Program.listTapL.Add(tapl);
-                TapLToListView(tapl);
-                listToTapL.Clear();
+            }
+            Program.listTapL.Add(tapl);
+            TapLToListView(tapl);
+            listToTapL.Clear();
         }
     }
 }

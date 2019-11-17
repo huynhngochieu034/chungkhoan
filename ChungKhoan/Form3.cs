@@ -17,7 +17,7 @@ namespace ChungKhoan
         private int k = 0;
         private string tempLastChar = "";
         private string tempNearLastChar = "";
-        
+
         public Form3(int k)
         {
             InitializeComponent();
@@ -26,7 +26,7 @@ namespace ChungKhoan
             if (Form1.checkTangGiam == 1)
             {
                 label6.Text = "CÁC CỔ PHIẾU CÙNG TĂNG";
-                 
+
             }
             else label6.Text = "CÁC CỔ PHIẾU CÙNG GIẢM";
 
@@ -35,7 +35,7 @@ namespace ChungKhoan
             getRules();
         }
 
- 
+
 
 
         private string xoaPhanTuCuoi(string str)
@@ -53,7 +53,7 @@ namespace ChungKhoan
             return a.Trim();
         }
 
- 
+
 
         private string xoaPhanTuKeCuoi(string str)
         {
@@ -64,11 +64,11 @@ namespace ChungKhoan
                 tempNearLastChar += str[i];
                 if (str[i] == ' ')
                 {
-                    
-                    dem++;                   
+
+                    dem++;
                     if (dem == 2)
                     {
-                        
+
                         a = str.Remove(i + 1);
                         break;
                     }
@@ -136,7 +136,7 @@ namespace ChungKhoan
                                     checktoListView = strRemoveLast.Split(' ');
                                     foreach (string s in checktoListView)
                                     {
-                                        
+
                                         strBuilder.Append(getNameCP(getNameMaHoa(s)));
                                         strBuilder.Append(", ");
                                     }
@@ -149,7 +149,7 @@ namespace ChungKhoan
                                     strBuilder.Length--;
 
                                     strBuilder.Append(" => ");
-                                   
+
                                     strBuilder.Append(getNameCP(getNameMaHoa(tempLastChar)));
                                     listView1.Items.Add(strBuilder.ToString());
 
@@ -161,7 +161,7 @@ namespace ChungKhoan
                             if (strr.Equals(strRemoveNearLast))
                             {
                                 //Console.WriteLine("str: " + strRemoveNearLast + "=>" + tempString[1]);
-                               // Console.WriteLine("Sup: " + t.Value * 100 / t2.Value);
+                                // Console.WriteLine("Sup: " + t.Value * 100 / t2.Value);
                                 if (t.Value * 100 / t2.Value >= trackBar1.Value)
                                 {
 
@@ -253,8 +253,8 @@ namespace ChungKhoan
                                 }
                                 if (strr.Equals(tempString[1]))
                                 {
-                                   // Console.WriteLine("str: " + tempString[1] + "=>" + strRemoveNearLast);
-                                   // Console.WriteLine("Sup: " + t.Value * 100 / t2.Value);
+                                    // Console.WriteLine("str: " + tempString[1] + "=>" + strRemoveNearLast);
+                                    // Console.WriteLine("Sup: " + t.Value * 100 / t2.Value);
                                     if (t.Value * 100 / t2.Value >= trackBar1.Value)
                                     {
 
@@ -347,6 +347,7 @@ namespace ChungKhoan
             {
                 return rdr.GetValue(0).ToString();
             }
+            //conn.Close();
             return null;
         }
 
@@ -396,7 +397,7 @@ namespace ChungKhoan
 
         }
 
-   
+
 
 
 
