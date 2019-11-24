@@ -13,309 +13,176 @@ namespace ChungKhoan
 {
     public partial class Form3 : Form
     {
-        private List<string> list = new List<string>();
         private int k = 0;
-        private string tempLastChar = "";
-        private string tempNearLastChar = "";
+        List<string> List_Full = new List<string>();
+        List<string> List_R = new List<string>();
+        List<string> List_L = new List<string>();
+        List<int> List_sup = new List<int>();
+        List<int> List_supR = new List<int>();
+        // List<string> list_ten = new List<string>();
+        // List<KeyValuePair<string, string>> list_ten = new List<KeyValuePair<string, string>>();
+        Dictionary<string, string> list_ten = new Dictionary<string, string>();
 
         public Form3(int k)
         {
             InitializeComponent();
             this.k = k;
-
-            if (Form1.checkTangGiam == 1)
-            {
-                label6.Text = "CÁC CỔ PHIẾU CÙNG TĂNG";
-
-            }
-            else label6.Text = "CÁC CỔ PHIẾU CÙNG GIẢM";
-
-            label3.Text = "0";
-            listView1.Columns.Add("TEN CTY");
-            getRules();
         }
 
-
-
-
-        private string xoaPhanTuCuoi(string str)
+        private void Form3_Load(object sender, EventArgs e)
         {
-            string a = "";
-            for (int i = str.Length - 1; i >= 0; i--)
-            {
-                tempLastChar += str[i];
-                if (str[i] == ' ')
-                {
-                    a = str.Remove(i);
-                    break;
-                }
-            }
-            return a.Trim();
+            //();
+            // text1();
+            Ten_CP();
+
+            Sinh_Luat(k);
+            Load_supR();
         }
 
-
-
-        private string xoaPhanTuKeCuoi(string str)
+        private List<string> Load_NhiPhan(int k)
         {
-            string a = "";
-            int dem = 0;
-            for (int i = str.Length - 1; i >= 0; i--)
+            List<string> listtemp = new List<string>();
+            int n = k + 1;
+            int[] mang = new int[n];
+            int i;
+            for (i = 0; i < n; i++)
             {
-                tempNearLastChar += str[i];
-                if (str[i] == ' ')
+                mang[i] = 0;
+            }
+            // in ra cau hinh dau
+            //for (i = 0; i < n; i++)
+            //{
+            //    Console.WriteLine(mang[i]);
+            //}
+            //xu ly
+            for (i = n - 1; i >= 0; i--)
+            {
+                if (mang[i] == 0)  // neu gap phan tu 0 dau tien
                 {
-
-                    dem++;
-                    if (dem == 2)
+                    mang[i] = 1;  // gan no lai thanh 1
+                    int j;
+                    string ss = "";
+                    for (j = i + 1; j < n; j++)  // gan toan bo phan tu phia sau no thanh 0
                     {
-
-                        a = str.Remove(i + 1);
-                        break;
+                        mang[j] = 0;
                     }
+                    // in ra day so moi
+                    for (j = 0; j < n; j++)
+                    {
+                        ss = ss + " " + mang[j];
+                    }
+                    listtemp.Add(ss.Trim());
+                    //  Console.WriteLine(" ");
+
+                    i = n;  // gan i = n de khi het vong lap i-- nen i se = n - 1, tu do chay lai tu vi tri cuoi.
+                    // gan i = n - 1 la sai vi khi het vong lap hien tai i-- se thanh n - 2.
                 }
             }
-            return a + tempLastChar.Trim();
+            return listtemp;
         }
-
-
-        private void label4_Click(object sender, EventArgs e)
+        private void Sinh_chuoi(List<string> List_NP, string[] chuoiL, string ls, KeyValuePair<List<string>, int> l)
         {
-
-        }
-
-
-        private void trackBar1_Scroll(object sender, EventArgs e)
-        {
-            label3.Text = trackBar1.Value.ToString();
-        }
-
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            getRules();
-        }
-
-        private void getRules()
-        {
-            string strRemoveNearLast;
-            string strRemoveLast;
-            string[] tempString;
-            string[] check;
-            string cacKiTuCuoi;
-            string kiTuDau;
-
-            string[] checktoListView;
-            StringBuilder strBuilder = new StringBuilder();
-
-            listView1.Items.Clear();
-            foreach (var t in Program.listTapL[k])
+            for (int j = 0; j < List_NP.Count - 1; j++)
             {
-                foreach (string str in t.Key)
+                string[] chuoi_np = List_NP[j].Split(' ');
                 {
-
-                    check = str.Split(' ');
-                    strRemoveLast = xoaPhanTuCuoi(str);
-                    strRemoveNearLast = xoaPhanTuKeCuoi(str);
-
-                    tempString = tempNearLastChar.Trim().Split(' ');
-                    cacKiTuCuoi = layCacKiTuCuoi(str);
-                    kiTuDau = layKiTuDau(str).Trim();
-
-                    foreach (var t2 in Program.listTapL[k - 1])
+                    int g = 0;
+                    string ss = "";
+                    string sss = "";
+                    for (g = 0; g < chuoi_np.Length; g++)
                     {
-                        foreach (string strr in t2.Key)
+                        // int index = ls.IndexOf(chuoiL[g]);
+                        // string s = ls.Remove(index); 
+                        if (chuoi_np[g].Equals("0"))
                         {
-                            if (strr.Equals(strRemoveLast))
-                            {
-
-                                //Console.WriteLine("str: " + strRemoveLast + "=>" + tempLastChar.Trim());
-                                //Console.WriteLine("Sup: " + t.Value * 100 / t2.Value);
-                                if (t.Value * 100 / t2.Value >= trackBar1.Value)
-                                {
-
-                                    checktoListView = strRemoveLast.Split(' ');
-                                    foreach (string s in checktoListView)
-                                    {
-
-                                        strBuilder.Append(getNameCP(getNameMaHoa(s)));
-                                        strBuilder.Append(", ");
-                                    }
-
-                                    if (strBuilder.Length == 0)
-                                    {
-                                        strBuilder.Append(", ");
-                                    }
-                                    strBuilder.Length--;
-                                    strBuilder.Length--;
-
-                                    strBuilder.Append(" => ");
-
-                                    strBuilder.Append(getNameCP(getNameMaHoa(tempLastChar)));
-                                    listView1.Items.Add(strBuilder.ToString());
-
-                                    strBuilder.Clear();
-                                }
-                            }
-
-
-                            if (strr.Equals(strRemoveNearLast))
-                            {
-                                //Console.WriteLine("str: " + strRemoveNearLast + "=>" + tempString[1]);
-                                // Console.WriteLine("Sup: " + t.Value * 100 / t2.Value);
-                                if (t.Value * 100 / t2.Value >= trackBar1.Value)
-                                {
-
-                                    checktoListView = strRemoveNearLast.Split(' ');
-                                    foreach (string s in checktoListView)
-                                    {
-                                        //strBuilder.Append(getNameMaHoa(s));
-                                        strBuilder.Append(getNameCP(getNameMaHoa(s)));
-                                        strBuilder.Append(", ");
-                                    }
-                                    if (strBuilder.Length == 0)
-                                    {
-                                        strBuilder.Append(", ");
-                                    }
-                                    strBuilder.Length--;
-                                    strBuilder.Length--;
-                                    strBuilder.Append(" => ");
-                                    //strBuilder.Append(getNameMaHoa(tempString[1]));
-                                    strBuilder.Append(getNameCP(getNameMaHoa(tempString[1])));
-                                    listView1.Items.Add(strBuilder.ToString());
-                                    strBuilder.Clear();
-                                }
-                            }
-                            if (check.Length >= 3 && strr.Equals(cacKiTuCuoi))
-                            {
-                                //Console.WriteLine("str: " + cacKiTuCuoi + "=>" + kiTuDau);
-                                //Console.WriteLine("Sup: " + t.Value * 100 / t2.Value);
-                                if (t.Value * 100 / t2.Value >= trackBar1.Value)
-                                {
-
-                                    checktoListView = cacKiTuCuoi.Split(' ');
-                                    foreach (string s in checktoListView)
-                                    {
-
-                                        //strBuilder.Append(getNameMaHoa(s));
-                                        strBuilder.Append(getNameCP(getNameMaHoa(s)));
-                                        strBuilder.Append(", ");
-                                    }
-                                    if (strBuilder.Length == 0)
-                                    {
-                                        strBuilder.Append(", ");
-                                    }
-                                    strBuilder.Length--;
-                                    strBuilder.Length--;
-                                    strBuilder.Append(" => ");
-                                    //strBuilder.Append(getNameMaHoa(kiTuDau));
-                                    strBuilder.Append(getNameCP(getNameMaHoa(kiTuDau)));
-                                    listView1.Items.Add(strBuilder.ToString());
-                                    strBuilder.Clear();
-                                }
-                            }
-
+                            ss = ss + " " + chuoiL[g];
+                        }
+                        if (chuoi_np[g].Equals("1"))
+                        {
+                            sss = sss + " " + chuoiL[g];
                         }
                     }
-                    if (check.Length >= 3)
-                    {
-                        foreach (var t2 in Program.listTapL[0])
-                        {
-                            foreach (string strr in t2.Key)
-                            {
-                                if (strr.Equals(tempLastChar.Trim()))
-                                {
-                                    //Console.WriteLine("str: " + tempLastChar.Trim() + "=>" + strRemoveLast);
-                                    //Console.WriteLine("Sup: " + t.Value * 100 / t2.Value);
-                                    if (t.Value * 100 / t2.Value >= trackBar1.Value)
-                                    {
-
-                                        //strBuilder.Append(getNameMaHoa(tempLastChar.Trim()));
-                                        strBuilder.Append(getNameCP(getNameMaHoa(tempLastChar.Trim())));
-
-                                        strBuilder.Append(" => ");
-                                        checktoListView = strRemoveLast.Split(' ');
-                                        foreach (string s in checktoListView)
-                                        {
-                                            strBuilder.Append(getNameCP(getNameMaHoa(s)));
-                                            //strBuilder.Append(getNameMaHoa(s));
-                                            strBuilder.Append(", ");
-                                        }
-                                        if (strBuilder.Length == 0)
-                                        {
-                                            strBuilder.Append(", ");
-                                        }
-                                        strBuilder.Length--;
-                                        strBuilder.Length--;
-
-                                        listView1.Items.Add(strBuilder.ToString());
-                                        strBuilder.Clear();
-                                    }
-                                }
-                                if (strr.Equals(tempString[1]))
-                                {
-                                    // Console.WriteLine("str: " + tempString[1] + "=>" + strRemoveNearLast);
-                                    // Console.WriteLine("Sup: " + t.Value * 100 / t2.Value);
-                                    if (t.Value * 100 / t2.Value >= trackBar1.Value)
-                                    {
-
-                                        //strBuilder.Append(getNameMaHoa(tempString[1]));
-                                        strBuilder.Append(getNameCP(getNameMaHoa(tempString[1])));
-                                        strBuilder.Append(" => ");
-                                        checktoListView = strRemoveNearLast.Split(' ');
-                                        foreach (string s in checktoListView)
-                                        {
-                                            //strBuilder.Append(getNameMaHoa(s));
-                                            strBuilder.Append(getNameCP(getNameMaHoa(s)));
-                                            strBuilder.Append(", ");
-                                        }
-                                        if (strBuilder.Length == 0)
-                                        {
-                                            strBuilder.Append(", ");
-                                        }
-                                        strBuilder.Length--;
-                                        strBuilder.Length--;
-                                        listView1.Items.Add(strBuilder.ToString());
-                                        strBuilder.Clear();
-                                    }
-                                }
-                                if (strr.Equals(kiTuDau))
-                                {
-                                    //Console.WriteLine("str: " + kiTuDau + "=>" + cacKiTuCuoi);
-                                    //Console.WriteLine("Sup: " + t.Value * 100 / t2.Value);
-                                    if (t.Value * 100 / t2.Value >= trackBar1.Value)
-                                    {
-
-                                        //strBuilder.Append(getNameMaHoa(kiTuDau));
-                                        strBuilder.Append(getNameCP(getNameMaHoa(kiTuDau)));
-                                        strBuilder.Append(" => ");
-                                        checktoListView = cacKiTuCuoi.Split(' ');
-                                        foreach (string s in checktoListView)
-                                        {
-                                            //strBuilder.Append(getNameMaHoa(s));
-                                            strBuilder.Append(getNameCP(getNameMaHoa(s)));
-                                            strBuilder.Append(", ");
-                                        }
-                                        if (strBuilder.Length == 0)
-                                        {
-                                            strBuilder.Append(", ");
-                                        }
-                                        strBuilder.Length--;
-                                        strBuilder.Length--;
-                                        listView1.Items.Add(strBuilder.ToString());
-                                        strBuilder.Clear();
-                                    }
-                                }
-                            }
-                        }
-
-                    }
-
-                    tempLastChar = "";
-                    tempNearLastChar = "";
+                    List_L.Add(sss.Trim());
+                    List_R.Add(ss.Trim());
+                    List_Full.Add(ls);
+                    List_sup.Add(l.Value);
                 }
             }
-            listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-            listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+        }
+        public void Sinh_Luat(int k)
+        {
+            for (int i = 0; i <= k; i++)
+            {
+                List<string> List_NP = new List<string>();
+                List_NP = Load_NhiPhan(i);
+                foreach (var l in Program.listTapL[i])
+                {
+                    foreach (string ls in l.Key)
+                    {
+                        if (i > 0)
+                        {
+                            string[] chuoiL = ls.Split(' ');
+                            Sinh_chuoi(List_NP, chuoiL, ls, l);
+                        }
+                    }
+                }
+            }
+            //foreach (string val in List_L)
+            //{
+            //    Console.WriteLine(val);
+            //}
+            //Console.WriteLine("---------------");
+            //foreach (string val in List_R)
+            //{
+            //    Console.WriteLine(val);
+            //}
+            //Console.WriteLine("---------------");
+            //foreach (string val in List_Full)
+            //{
+            //    Console.WriteLine(val);
+            //}
+            //Console.WriteLine("---------------");
+            //foreach (int val in List_sup)
+            //{
+            //    Console.WriteLine(val);
+            //}
+        }
+        public void Load_supR()
+        {
+            for (int i = 0; i < List_R.Count; i++)
+            {
+                Load_TapL(k, List_R[i]);
+            }
+        }
+        public void Load_TapL(int k, string List_R)
+        {
+            for (int i = 0; i <= k; i++)
+            {
+                foreach (var l in Program.listTapL[i])
+                {
+                    for (int j = 0; j < l.Key.Count; j++)
+                    {
+                        if (List_R.Trim().Equals(l.Key[j].Trim()))
+                        {
+                            // Console.WriteLine("---"+List_R[i] + "------" + l.Value);
+                            List_supR.Add(l.Value);
+                        }
+                    }
+                }
+            }
+        }
+        private string getName(string a)
+        {
+            foreach (var str in list_ten)
+            {
+
+                if (str.Key.ToString().Equals(a.Trim()))
+                {
+
+                    return str.Value.ToString();
+                }
+            }
+            return null;
         }
 
         private string getNameMaHoa(string a)
@@ -331,9 +198,15 @@ namespace ChungKhoan
             }
             return null;
         }
+        public void Ten_CP()
+        {
 
+            for (int i = 0; i < Program.listMahoa.Count; i++)
+            {
+                list_ten.Add(Program.listMahoa[i].maHoa.ToString(), getNameCP(Program.listMahoa[i].maCp.ToString()));
+            }
 
-
+        }
         private string getNameCP(string maCP)
         {
             SqlConnection conn = new SqlConnection(Program.connnectionString);
@@ -350,56 +223,91 @@ namespace ChungKhoan
             //conn.Close();
             return null;
         }
-
-        private string layCacKiTuCuoi(string str)
+        public void Ket_Qua_1(int tb_conf)
         {
-            string a = "";
-            int dem = 0;
-            for (int i = 0; i < str.Length; i++)
+            lv_conf.Columns.Add("Luật sinh ra");
+            lv_conf.Columns.Add(" %");
+
+            for (int i = 0; i < List_sup.Count; i++)
             {
-                if (str[i] == ' ')
+                double conf = Math.Round(((double)List_sup[i] / List_supR[i]) * 100);
+                ListViewItem lv_Item = new ListViewItem();
+                int dem = 0;
+                string abc = "";
+                string abcd = "";
+                if (conf >= tb_conf)
                 {
-                    dem = 1;
-                }
-                if (dem == 1)
-                {
-                    a += str[i];
+                    dem = i + 1;
+
+                    string[] listtemp = List_R[i].Split(' ');
+                    string[] listtemp1 = List_L[i].Split(' ');
+                    int j = 0;
+                    for (j = 0; j < listtemp.Length; j++)
+                    {
+                        // abc = abc +", "+ getNameMaHoa(listtemp[j]);
+                        //  abcd = abcd + ", " + getNameMaHoa(listtemp1[j]);
+                        abc = abc + ", " + getName(listtemp[j]);
+                        // abcd = abcd + ", " + getNameCP(getNameMaHoa(listtemp1[j]));
+                    }
+                    for (j = 0; j < listtemp1.Length; j++)
+                    {
+                        // abc = abc + ", " + getNameMaHoa(listtemp[j]);
+                        // abcd = abcd + ", " + getNameMaHoa(listtemp1[j]);
+                        //abc = abc + ", " + getNameCP(getNameMaHoa(listtemp[j]));
+                        abcd = abcd + ", " + getName(listtemp1[j]);
+                    }
+                    lv_Item.Text = abc.Remove(0, 1) + " ==> " + abcd.Remove(0, 1);
+                    //lv_Item.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = List_supR[i].ToString() });
+                    // lv_Item.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = List_sup[i].ToString() });
+                    //lv_Item.Text = List_Full[i].Trim();
+                    lv_Item.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = conf.ToString() + " %" });
+                    lv_Item.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = dem.ToString() });
+                    lv_conf.Items.Add(lv_Item);
+                    // Console.WriteLine(List_R[i] + "==>" + List_L[i] + "  : " + conf);
+
                 }
 
 
             }
-            return a.Trim();
+            lv_conf.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+            lv_conf.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
 
-
-
-        private string layKiTuDau(string str)
+        public void Ket_Qua(int tb_conf)
         {
-            string a = "";
-            for (int i = 0; i < str.Length; i++)
+            lv_conf.Columns.Add("Sinh luat");
+            lv_conf.Columns.Add("Phan tram");
+            lv_conf.Columns.Add("Phan tram");
+            lv_conf.Columns.Add("Phan tram");
+            lv_conf.Columns.Add("Phan tram");
+            for (int i = 0; i < List_sup.Count; i++)
             {
-                a += str[i];
-                if (str[i] == ' ')
+                double conf = Math.Round(((double)List_sup[i] / List_supR[i]) * 100);
+                ListViewItem lv_Item = new ListViewItem();
+                if (conf > tb_conf)
                 {
-                    break;
+                    lv_Item.Text = List_R[i].Trim() + " ==> " + List_L[i].Trim();
+                    lv_Item.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = List_Full[i].Trim() });
+                    lv_Item.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = List_supR[i].ToString() });
+                    lv_Item.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = List_sup[i].ToString() });
+                    //lv_Item.Text = List_Full[i].Trim();
+                    lv_Item.SubItems.Add(new ListViewItem.ListViewSubItem() { Text = conf.ToString() + " %" });
+                    lv_conf.Items.Add(lv_Item);
+                    // Console.WriteLine(List_R[i] + "==>" + List_L[i] + "  : " + conf);
                 }
             }
-            return a;
         }
 
-        private void Form3_Load(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-
+            lv_conf.Clear();
+            //  Ket_Qua(tb_trackbar.Value);
+            Ket_Qua_1(tb_trackbar.Value);
         }
 
-        private void label2_Click(object sender, EventArgs e)
+        private void tb_trackbar_Scroll(object sender, EventArgs e)
         {
-
+            lb_conf.Text = tb_trackbar.Value + "";
         }
-
-
-
-
-
     }
 }

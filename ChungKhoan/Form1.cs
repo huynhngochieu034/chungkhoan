@@ -67,6 +67,7 @@ namespace ChungKhoan
                 }
                 i++;
             }
+            Console.WriteLine("so record: " + i);
             listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
             listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
             conn.Close();

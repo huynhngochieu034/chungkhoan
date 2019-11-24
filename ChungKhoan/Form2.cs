@@ -15,7 +15,7 @@ namespace ChungKhoan
 
         private ListView listViewTapD;
         private ListView listViewMaHoa;
-        private List<int> list = new List<int>();
+        private List<int> listKhoiTao = new List<int>();
         private int k = 0;
         private string tempChar = "";
         private List<string> listToTapL = new List<string>();
@@ -114,7 +114,7 @@ namespace ChungKhoan
                 {
                     if (listViewTapD.Items[i].SubItems[j].Text == "1")
                     {
-                        list.Add(j);
+                        listKhoiTao.Add(j);
                         listTemp.Add(j.ToString());
                     }
                 }
@@ -143,7 +143,7 @@ namespace ChungKhoan
             {
                 tempList.Add(number.ToString());
 
-                dem = list.Where(temp => temp.Equals(number))
+                dem = listKhoiTao.Where(temp => temp.Equals(number))
                     .Select(temp => temp)
                     .Count();
 
@@ -183,12 +183,12 @@ namespace ChungKhoan
                         //Console.WriteLine("compare");
                         //Console.WriteLine(list[j].Remove(list[j].Length - demString(list[j])).Trim());
 
-                        if (listString[i].Remove(listString[i].Length - demString(listString[i])).Trim()
-                            .CompareTo(listString[j].Remove(listString[j].Length - demString(listString[j])).Trim()) == 0)
+                        if (listString[i].Remove(listString[i].Length - demLastString(listString[i])).Trim()
+                            .CompareTo(listString[j].Remove(listString[j].Length - demLastString(listString[j])).Trim()) == 0)
                         {
-                            result = listString[i].Remove(listString[i].Length - demString(listString[i])).Trim()
-                                + " " + listString[i].Remove(0, listString[i].Length - demString(listString[i])).Trim()
-                                + " " + listString[j].Remove(0, listString[j].Length - demString(listString[j])).Trim();
+                            result = listString[i].Remove(listString[i].Length - demLastString(listString[i])).Trim()
+                                + " " + listString[i].Remove(0, listString[i].Length - demLastString(listString[i])).Trim()
+                                + " " + listString[j].Remove(0, listString[j].Length - demLastString(listString[j])).Trim();
 
                             arrTemp.Add(result);
                         }
@@ -199,7 +199,7 @@ namespace ChungKhoan
             return arrTemp;
         }
 
-        private int demString(string str)
+        private int demLastString(string str)
         {
             int dem = 0;
             for (int i = str.Length - 1; i >= 0; i--)
@@ -367,6 +367,8 @@ namespace ChungKhoan
             tapl.Lable = "Tập L" + ((k + 2).ToString());
 
             tempSTR.AddRange(listSTR.Distinct());
+            tempSTR.Sort();
+
             int count = 0;
 
             foreach (string findValue in tempSTR)
